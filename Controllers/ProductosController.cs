@@ -1,21 +1,35 @@
 ﻿using Inventario.Data;
+using Inventario.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventario.Controllers
 {
-    public class ProductosController: Controller
+    public class ProductosController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly AppDbContext repositorioProductos;
 
-        public ProductosController(AppDbContext context) { 
-            _context = context;
+        public ProductosController(AppDbContext context)
+        {
+            repositorioProductos = context;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var productos = await _context.Productos.ToListAsync();
+            var productos = await repositorioProductos.Productos.ToListAsync();
             return View(productos);
+        }
+
+        public async Task<IActionResult> Crear(Producto producto)
+        {
+            if (ModelState.IsValid)
+            {
+                repositorioProductos.Add(producto);
+                await repositorioProductos.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(producto);
         }
     }
 }
