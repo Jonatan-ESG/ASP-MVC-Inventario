@@ -21,6 +21,7 @@ namespace Inventario.Controllers
             return View(productos);
         }
 
+        [HttpGet, HttpPost]
         public async Task<IActionResult> Crear(Producto producto)
         {
             if (ModelState.IsValid)
