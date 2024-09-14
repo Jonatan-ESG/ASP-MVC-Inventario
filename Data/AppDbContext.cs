@@ -8,5 +8,6 @@ namespace Inventario.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<Producto> Productos { get; set; }
+        public DbSet<Libro> Libros { get; set; }
     }
 }
